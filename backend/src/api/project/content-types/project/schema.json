@@ -17,18 +17,21 @@
       "required": true,
       "unique": true
     },
-    "image": {
+    "media": {
       "type": "media",
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "allowedTypes": [
         "images",
         "videos"
       ]
     },
-    "description": {
+    "overview": {
       "type": "blocks",
       "required": true
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
