@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import config from "@/config";
 import { fetchData } from "@/lib/fetchData";
 import Image from "next/image";
@@ -5,12 +6,14 @@ import Image from "next/image";
 const Portfolio = async () => {
   const data = await fetchData();
 
+  // console.log(data.data[0].attributes.cover.data);
+
   return (
     <main>
       <div className="mx-[16px] py-[96px] flex flex-col gap-[36px]">
         {data.data.map((el: any) => {
           const portfolio = el.attributes;
-
+          console.log(portfolio.cover);
           return (
             <div key={el.id}>
               <div>
@@ -20,32 +23,34 @@ const Portfolio = async () => {
                   if (name && name.startsWith("Okladka")) {
                     if (mime.startsWith("image")) {
                       return (
-                        <Image
-                          key={i.id}
-                          src={`${config.api}${url}`}
-                          alt={name || "Image"}
-                          width={343}
-                          height={343}
-                        />
+                        <Button slug={el.id}>
+                          <Image
+                            key={i.id}
+                            src={`${config.api}${url}`}
+                            alt={portfolio.title || "Image"}
+                            width={343}
+                            height={343}
+                          />
+                        </Button>
                       );
                     } else if (mime.startsWith("video")) {
                       return (
-                        <video
-                          key={i.id}
-                          width="343"
-                          height="343"
-                          loop
-                          muted
-                          autoPlay
-                        >
-                          <source src={`${config.api}${url}`} type={mime} />
-                          Your browser does not support the video tag.
-                        </video>
+                        <Button slug={el.id}>
+                          <video
+                            key={i.id}
+                            width="343"
+                            height="343"
+                            loop
+                            muted
+                            autoPlay
+                          >
+                            <source src={`${config.api}${url}`} type={mime} />
+                            Your browser does not support the video tag.
+                          </video>
+                        </Button>
                       );
                     }
                   }
-
-                  return null;
                 })}
               </div>
 

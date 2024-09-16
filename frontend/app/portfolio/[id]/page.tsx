@@ -1,20 +1,25 @@
 import config from "@/config";
-import { fetchData } from "@/lib/fetchData";
+import { fetchData, fetchDataById } from "@/lib/fetchData";
 import Image from "next/image";
 
-const ProjectDetails = async () => {
+export async function generateStaticParams() {
   const data = await fetchData();
 
-  const images = data.data[0].attributes.media.data;
+  return data.data.map((project) => ({
+    id: project.id.toString(),
+  }));
+}
+
+const ProjectDetails = async ({ params }) => {
+  const data = await fetchDataById(params.id);
 
   return (
     <main>
       <div className="mx-[16px] py-[96px]">
         <div>
-          {images.map((i: any) => {
-            const { url, mime, name } = i.attributes;
+          {data.data.attributes.media.data.map((i: any) => {
+            const { url, mime, name } = i?.attributes;
 
-            // Check if the file is a video or an image based on the MIME type
             if (mime.startsWith("image")) {
               return (
                 <Image
@@ -33,16 +38,7 @@ const ProjectDetails = async () => {
                 </video>
               );
             }
-
-            return null; // Return null for unsupported types (if any)
           })}
-
-          <Image
-            src={`${config.api}${data.data[0].attributes.media.data[0].attributes.url}`}
-            alt="Default image"
-            width={700}
-            height={700}
-          />
         </div>
       </div>
     </main>

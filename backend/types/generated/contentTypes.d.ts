@@ -378,6 +378,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     media: Attribute.Media<'images' | 'videos', true>;
     overview: Attribute.Blocks & Attribute.Required;
     description: Attribute.RichText;
+    cover: Attribute.Media<'images' | 'videos'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
